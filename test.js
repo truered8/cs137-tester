@@ -26,21 +26,6 @@ const getTests = (text) => {
     return tests;
 }
 
-const saveTests = (tests) => {
-    const dir = process.argv[3] + '/tests/';
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    tests.forEach((problem, i) => {
-        if (!fs.existsSync(`${dir}problem${i}`))
-            fs.mkdirSync(`${dir}problem${i}`, { recursive: true });
-        problem.forEach((test, j) => {
-            console.log(test)
-            console.log(`${dir}problem${i}/input${j}`);
-            fs.writeFileSync(`${dir}problem${i}/input${j}.txt`, test.input);
-            fs.writeFileSync(`${dir}problem${i}/output${j}.txt`, test.output);
-        });
-    });
-}
-
 const runTests = async (tests, programPath, problemIndex) => {
     const problemTests = tests[problemIndex - 1];
     await exec(`g++ -std=c11 -o out ${programPath}`, (error, stdout, stderr) => {
